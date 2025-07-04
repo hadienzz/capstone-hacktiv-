@@ -6,7 +6,7 @@ import SignUpPage from "./components/pages/signUp"
 const router = createBrowserRouter([
   { path: '/', element: <AddJournalPage /> },
   { path: '/signin', element: <SignInPage /> },
-  { path: 'signup', element: <SignUpPage /> }
+  { path: '/signup', element: <SignUpPage /> }
 ])
 
 const App = () => {

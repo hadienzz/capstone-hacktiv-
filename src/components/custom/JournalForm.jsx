@@ -42,7 +42,7 @@ const JournalForm = () => {
                         formik={formik}
                     />
                     <Button disabled={pendingAddJournal} className="w-full h-12 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
-                    >
+                        type={'submit'}>
                         <Save />
                         <h1>Save</h1>
                     </Button>

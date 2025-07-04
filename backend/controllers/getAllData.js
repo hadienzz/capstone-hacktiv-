@@ -1,9 +1,13 @@
-const connectDb = require("../config/connectDB");
+const connectDb = require('../config/connectDB')
 
 const getAllData = async (req, res) => {
-  const prisma = await connectDb();
-  const data = await prisma.journal.findMany();
-  return res.json(data);
-};
+  const db = await connectDb()
+  const data = await db.find().toArray()
 
-module.exports = getAllData;
+  if (!data) {
+    return res.status(400).json({ message: "Failed to get all data" })
+  }
+
+  return res.status(200).json(data)
+}
+module.exports = getAllData

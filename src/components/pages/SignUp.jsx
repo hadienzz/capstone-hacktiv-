@@ -5,8 +5,12 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Brain, Mail, Lock, Eye, EyeOff, User, ArrowRight, Heart, Shield, Sparkles } from "lucide-react"
 import InputForm from "../custom/InputForm"
+import useSignUp from "@/lib/useSignUp"
 
 const SignUpPage = () => {
+    const [showPassword, setShowPassword] = useState(false)
+    const { formik } = useSignUp()
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center p-4">
             <div className="w-full max-w-md">
@@ -29,101 +33,48 @@ const SignUpPage = () => {
                     </CardHeader>
 
                     <CardContent>
-                        <form className="space-y-4">
-                            <div className="grid grid-cols-2 gap-3">
-                                <InputForm
-                                    label={'First Name'}
-                                    icon={<User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
-                                    />}
-                                    id="firstName"
-                                    name="firstName"
-                                    type="text"
-                                    placeholder="First name"
-                                    value
-                                    onChange
-                                />
-
-                                <InputForm
-                                    label={'Last Name'}
-
-                                    icon={<Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4"
-                                    />} />
-                            </div>
-
-                            <div className="space-y-2">
-                                <label htmlFor="email" className="text-sm font-medium text-gray-700">
-                                    Email Address
-                                </label>
-                                <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                                    <Input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        placeholder="Enter your email"
-                                        value
-                                        onChange
-                                        className={`pl-10 bg-white/80 border-purple-200 focus:border-purple-400 focus:ring-purple-400`}
-                                    />
-                                </div>
-                                {/* {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>} */}
-                            </div>
+                        <form className="space-y-4" onSubmit={formik.handleSubmit}>
+                            <InputForm
+                                icon={<Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />}
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="Enter your email"
+                                label="Email address"
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                            />
 
                             {/* Password Field */}
-                            <div className="space-y-2">
-                                <label htmlFor="password" className="text-sm font-medium text-gray-700">
-                                    Password
-                                </label>
-                                <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                                    <Input
-                                        id="password"
-                                        name="password"
-                                        // type={showPassword ? "text" : "password"}
-                                        placeholder="Create a strong password"
-                                        value
-                                        onChange
-                                        className={`pl-10 pr-10 bg-white/80 border-purple-200 focus:border-purple-400 focus:ring-purple-400`}
-                                    />
-                                    <button
-                                        type="button"
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                                    >
-                                        {/* {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />} */}
-                                    </button>
-                                </div>
+                            <div className="space-y-2 relative ">
+                                <InputForm
+                                    icon={<Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />}
+                                    id="password"
+                                    name="password"
+                                    type={showPassword ? "text" : "password"}
+                                    placeholder="Create a strong password"
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
+                                    label={'Password'}
+                                />
+
+
+                                <button
+                                    type="button"
+                                    className="absolute right-3  top-[70%] transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                    onClick={() => setShowPassword((prev) => !prev)}
+                                >
+                                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                                </button>
                             </div>
 
-                            <div className="space-y-2">
-                                <label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
-                                    Confirm Password
-                                </label>
-                                <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                                    <Input
-                                        id="confirmPassword"
-                                        name="confirmPassword"
-                                        type //{showConfirmPassword ? "text" : "password"}
-                                        placeholder="Confirm your password"
-                                        value
-                                        onChange
-                                        className={`pl-10 pr-10 bg-white/80 border-purple-200 focus:border-purple-400 focus:ring-purple-400`}
-                                    />
-                                    <button
-                                        type="button"
-                                        // onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                                    >
-                                        {/* {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />} */}
-                                    </button>
-                                </div>
-                                {/* {errors.confirmPassword && <p className="text-red-500 text-xs">{errors.confirmPassword}</p>} */}
-                            </div>
+
 
                             <Button
                                 type="submit"
                                 className="w-full h-12 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50"
                             >
+                                Sign Up
                             </Button>
                         </form>
 
@@ -159,7 +110,7 @@ const SignUpPage = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
 
     )
 }

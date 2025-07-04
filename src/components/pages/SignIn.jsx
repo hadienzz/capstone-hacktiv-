@@ -5,8 +5,14 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Brain, Mail, Lock, Eye, EyeOff, ArrowRight, Heart } from "lucide-react"
 import { Link } from "react-router-dom"
+import useSignIn from "@/lib/useSignIn"
+import { useState } from "react"
+import InputForm from "../custom/InputForm"
 
 const SignInPage = () => {
+    const [showPassword, setShowPassword] = useState(false)
+    const { formik } = useSignIn()
+    
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center p-4">
             <div className="w-full max-w-md">
@@ -29,51 +35,34 @@ const SignInPage = () => {
                     </CardHeader>
 
                     <CardContent>
-                        <form className="space-y-6">
+                        <form className="space-y-6" autoComplete="off" onSubmit={formik.handleSubmit}>
                             {/* Email Field */}
-                            <div className="space-y-2">
-                                <label htmlFor="email" className="text-sm font-medium text-gray-700">
-                                    Email Address
-                                </label>
-                                <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                                    <Input
-                                        id="email"
-                                        name="email"
-                                        type="email"
-                                        placeholder="Enter your email"
-                                        value
-                                        onChange
-                                        className={`pl-10 bg-white/80 border-purple-200 focus:border-purple-400 focus:ring-purple-400`}
-                                    />
-                                </div>
-                            </div>
+                            <InputForm
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                icon={<Mail className="absolute left-3 w-4 h-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600" />}
+                            />
 
-                            {/* Password Field */}
-                            <div className="space-y-2">
-                                <label htmlFor="password" className="text-sm font-medium text-gray-700">
-                                    Password
-                                </label>
-                                <div className="relative">
-                                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                                    <Input
-                                        id="password"
-                                        name="password"
-                                        type='password' // ||TEXT
-                                        placeholder="Enter your password"
-                                        value
-                                        onChange
-                                        className={`pl-10 pr-10 bg-white/80 border-purple-200 focus:border-purple-400 focus:ring-purple-400`}
-                                    />
-                                    <button
-                                        type="button"
-                                        className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                                    >
-                                        {/* {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />} */}
-                                    </button>
-                                </div>
-                            </div>
+                            <div className="relative">
 
+                                <div className={'absolute right-5 w-3 h-3  top-1/2 transform -translate-y-9/10 text-gray-600 hover:text-gray-900 z-10'}
+                                    onClick={() => setShowPassword((prev) => !prev)}>
+
+                                    {showPassword ? <EyeOff /> : <Eye />}
+                                </div>
+                                <InputForm
+                                    id="password"
+                                    name="password"
+                                    type={showPassword ? "text" : 'password'}
+                                    placeholder="Enter your password"
+                                    value={formik.values.password}
+                                    onChange={formik.handleChange}
+                                    icon={<Lock className="absolute left-3 w-4 h-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600" />}
+                                />
+                            </div>
 
                             {/* Sign In Button */}
                             <Button
@@ -81,6 +70,7 @@ const SignInPage = () => {
                                 // disabled={isLoading}
                                 className="w-full h-12 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50"
                             >
+                                Sign In
                             </Button>
                         </form>
 

@@ -4,7 +4,8 @@ import { useFormik } from "formik"
 import { useState } from "react"
 
 const useGetInsight = () => {
-
+    const token = localStorage.getItem('token')
+    
     const { mutate: addJournal, isPending: pendingAddJournal } = useMutation({
         mutationFn: async (body) => {
 
@@ -12,9 +13,12 @@ const useGetInsight = () => {
                 alert('Gagal mengirim journal')
             }
 
-            const response = await axios.post('http://localhost:3000', body)
+            const response = await axios.post('http://localhost:3000', body, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
             const data = JSON.parse(response.data)
-            // const 
             const journal = {
                 userJournal: body,
                 aiInsight: data
