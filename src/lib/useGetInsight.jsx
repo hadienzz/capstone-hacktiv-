@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query"
 import axios from "axios"
 import { useFormik } from "formik"
-import { useState } from "react"
 
 const useGetInsight = () => {
     const token = localStorage.getItem('token')
@@ -19,13 +18,12 @@ const useGetInsight = () => {
                     Authorization: `Bearer ${token}`
                 }
             })
-            const data = JSON.parse(response.data)
-            const journal = {
-                userJournal: body,
-                aiInsight: data
+            
+            if (!response) {
+                throw new Error('Failed to get insight')
             }
 
-            console.log(body)
+            return response.data
         },
         mutationKey: ['journal']
     })

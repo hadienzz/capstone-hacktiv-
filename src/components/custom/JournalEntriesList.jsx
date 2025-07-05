@@ -6,11 +6,26 @@ import { Eye, Trash2, Search, Calendar, Clock, Tag } from "lucide-react"
 import { Button } from "../ui/button"
 
 
-const JournalEntriesList = ({ entries }) => {
+const JournalEntriesList = ({ entries, handleSelect }) => {
   // const [searchTerm, setSearchTerm] = useState("")
   // const [moodFilter, setMoodFilter] = useState("all")
   // const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   // const [entryToDelete, setEntryToDelete] = useState(null)
+  const moodColors = {
+    Happy: "#00b894",
+    Neutral: "#74b9ff",
+    Sad: "#fdcb6e",
+    Angry: "#e17055",
+    Lonely: "#a29bfe",
+  }
+
+  const moodEmojis = {
+    Happy: "😊",
+    Neutral: "😐",
+    Sad: "😢",
+    Angry: "😠",
+    Lonely: "😔",
+  }
 
   return (
     <div className="space-y-6">
@@ -54,7 +69,7 @@ const JournalEntriesList = ({ entries }) => {
 
       <div className="flex items-center justify-between">
         <p className="text-gray-600">
-          Showing FILTERED ENTRIES LENGTH of LENGTH entries
+          Showing {entries.length} of {entries.length} entries
         </p>
         <Badge variant="outline" className="bg-purple-50 text-purple-600 border-purple-200">
           Total: {entries.length} entries
@@ -86,20 +101,25 @@ const JournalEntriesList = ({ entries }) => {
                 <Badge
                   variant="outline"
                   className="ml-2"
+                  style={{
+                    backgroundColor: `${moodColors[entry.mood]}20`,
+                    borderColor: moodColors[entry.mood],
+                    color: moodColors[entry.mood],
+                  }}
                 >
-                  {entry.mood}
+                  {moodEmojis[entry.mood]} {entry.mood}
                 </Badge>
               </div>
             </CardHeader>
 
             <CardContent className="">
-              <p className="text-gray-600 text-base line-clamp-3 ">{entry.user}</p>
+              <p className="text-gray-600 text-base line-clamp-3 truncate">{entry.user}</p>
 
               <div className="flex gap-2 pt-2">
                 <Button
                   variant="outline"
                   size="sm"
-                  // onClick={() => onViewEntry(entry)}
+                  onClick={() => handleSelect(entry._id)}
                   className="flex-1 bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100"
                 >
                   <Eye className="w-3 h-3 mr-1" />

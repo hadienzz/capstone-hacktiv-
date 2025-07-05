@@ -11,7 +11,7 @@ import InputForm from "../custom/InputForm"
 const SignInPage = () => {
     const [showPassword, setShowPassword] = useState(false)
     const { formik } = useSignIn()
-    
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 flex items-center justify-center p-4">
             <div className="w-full max-w-md">
@@ -86,7 +86,7 @@ const SignInPage = () => {
                         <div className="text-center mt-6 pt-4 border-t border-gray-100">
                             <p className="text-gray-600 text-sm">
                                 Don't have an account?{" "}
-                                <Link href="/signup" className="text-purple-600 hover:text-purple-700 font-medium hover:underline">
+                                <Link to="/signup" className="text-purple-600 hover:text-purple-700 font-medium hover:underline">
                                     Sign up for free
                                 </Link>
                             </p>

@@ -1,21 +1,31 @@
 import { useMutation, useQuery } from "@tanstack/react-query"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 const useGetUserJournal = () => {
+    const navigate = useNavigate()
     const token = localStorage.getItem('token')
 
+    if (!token) {
+        navigate('/signin')
+    }
+
     const fetchJournal = async () => {
-        const response = await axios.get('http://localhost:3000', {
-            headers: {
-                Authorization: `Bearer ${token}`
+        try {
+            const response = await axios.get('http://localhost:3000', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+            if (!response) {
+                throw new Error('Failed to get data')
             }
-        })
 
-        if (!response) {
-            throw new Error('Failed to get data')
+            return response.data
+        } catch (err) {
+            throw err
         }
-
-        return response.data
 
     }
 
@@ -23,8 +33,6 @@ const useGetUserJournal = () => {
         queryFn: fetchJournal,
         queryKey: ['journal']
     })
-
-    console.log(journalData)
 
     return {
         journalLoading,
