@@ -1,6 +1,7 @@
 import { NAVIGATION } from "../../../store/data"
 import { Brain, User } from "lucide-react"
 import { Button } from "../ui/button"
+import { Link, NavLink } from "react-router-dom"
 
 const Navbar = () => {
     //bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg
@@ -21,10 +22,22 @@ const Navbar = () => {
 
             <nav className="inline-flex gap-4">
                 {NAVIGATION.map((item, idx) => (
-                    <Button key={idx} className={`text-gray-600 hover:text-purple-600 hover:bg-purple-50 bg-transparent`}>
-                        {item.icon}
-                        <h1>{item.label}</h1>
-                    </Button>
+                    <NavLink
+                        key={idx}
+                        to={item.link}
+                        className={({ isActive }) =>
+                            isActive
+                                ? 'bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-lg rounded-md'
+                                : 'text-gray-600 hover:text-purple-600 hover:bg-purple-50 bg-transparent'
+                        }
+                    >
+                        <Button asChild className="hover:bg-transparent bg-transparent text-gray  ">
+                            <div className="flex items-center gap-2">
+                                {item.icon}
+                                <h1>{item.label}</h1>
+                            </div>
+                        </Button>
+                    </NavLink>
                 ))}
             </nav>
 

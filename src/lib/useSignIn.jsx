@@ -1,6 +1,5 @@
 import supabaseClient from "@/config/supabaseClient"
 import { useFormik } from "formik"
-import * as Yup from 'yup'
 
 
 const useSignIn = () => {
@@ -11,23 +10,22 @@ const useSignIn = () => {
         },
         onSubmit: async (values) => {
             console.log(values)
+            const supabase = supabaseClient()
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: values.email,
+                password: values.password
+            })
+            if (error) {
+                console.error(error)
+            }
+            
+            const token = data.session.access_token
+            localStorage.setItem('token', token)
+            console.log(token)
+            return data
         }
     })
 
-    const handleSignIn = async (email, password) => {
-        const supabase = supabaseClient()
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email,
-            password
-        })
-        if (error) {
-            console.error(error)
-        }
-
-        const token = data.session.access_token
-        console.log(token)
-
-    }
 
     return {
         formik

@@ -5,6 +5,8 @@ import { Textarea } from "../ui/textarea"
 import MoodSelector from "./MoodSelector"
 import { Button } from "../ui/button"
 import useGetInsight from "@/lib/useGetInsight"
+import { Input } from "../ui/input"
+import { Label } from "../ui/label"
 
 const JournalForm = () => {
     const { formik, pendingAddJournal } = useGetInsight()
@@ -31,18 +33,32 @@ const JournalForm = () => {
                 <form onSubmit={formik.handleSubmit}>
                     <div className="mb-4">
                         <h1 className="pb-4 text-gray-700">How are you feeling today?</h1>
-                        <Textarea
-                            name="journal"
-                            onChange={formik.handleChange}
-                            value={formik.values.journal}
-                            className={'text-gray-600 h-48'}
-                            placeholder="Write your thoughts and feelings here... Take your time, there's no rush. Every feeling is valid and worth exploring." />
+                        <div className="grid gap-4">
+                            <div>
+                                <Label className={'text-xl'}>Title</Label>
+                                <Input
+                                    placeholder="Write ur journal title here"
+                                    value={formik.values.title}
+                                    onChange={formik.handleChange}
+                                    name={'title'} />
+                            </div>
+                            <div>
+                                <Label className={'text-xl'}>Description</Label>
+                                <Textarea
+                                    placeholder="Write your thoughts and feelings here... Take your time, there's no rush. Every feeling is valid and worth exploring."
+                                    value={formik.values.journal}
+                                    name="journal"
+                                    onChange={formik.handleChange}
+                                    className={'text-gray-600 h-48'}
+                                />
+                            </div>
+                        </div>
                     </div>
                     <MoodSelector
                         formik={formik}
                     />
                     <Button disabled={pendingAddJournal} className="w-full h-12 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-medium shadow-lg hover:shadow-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
-                    >
+                        type={'submit'}>
                         <Save />
                         <h1>Save</h1>
                     </Button>

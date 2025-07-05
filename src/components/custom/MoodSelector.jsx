@@ -3,7 +3,6 @@ import { MOODS_CONTENT } from "../../../store/data"
 import useGetInsight from "@/lib/useGetInsight"
 
 const MoodSelector = ({ formik }) => {
-    //backgroundColor: item.mood === selectedMood ? item.color : '' 
     return (
         <div>
             <label className="block text-sm font-medium text-gray-700 mb-4">Select your mood:</label>

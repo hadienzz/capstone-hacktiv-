@@ -1,9 +1,9 @@
 import { Home, BookOpen, BarChart3 } from "lucide-react"
 
 export const NAVIGATION = [
-    { id: "home", label: "Home", icon: <Home /> },
-    { id: "entries", label: "Journal Entries", icon: <BookOpen /> },
-    { id: "statistics", label: "Statistics", icon: <BarChart3 /> },
+    { id: "home", label: "Home", icon: <Home />, link: '/' },
+    { id: "entries", label: "Journal Entries", icon: <BookOpen />, link: '/journal' },
+    { id: "statistics", label: "Statistics", icon: <BarChart3 />, link: '/nanti ajah' },
 ]
 
 export const MOODS_CONTENT = [

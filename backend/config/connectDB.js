@@ -1,9 +1,13 @@
-const { PrismaClient } = require("../generated/prisma");
+require('dotenv').config()
 
-const prisma = new PrismaClient();
+const { MongoClient } = require("mongodb")
+
+const client = new MongoClient(process.env.MONGODB_API_KEY)
 
 const connectDb = async () => {
-  return prisma;
-};
+  await client.connect()
+  const db = client.db('chatbotDb').collection('conversations')
+  return db
+}
 
-module.exports = connectDb;
+module.exports = connectDb
