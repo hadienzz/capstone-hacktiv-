@@ -11,7 +11,7 @@ const router = createBrowserRouter([
   { path: '/journal', element: <JournalUser /> }
 ])
 
-const generateRandom = Math.floor(Math.random() * (98 - 60 + 1)) + 60;
+const generateRandom = Math.floor(Math.random() * (98 - 68 + 1)) + 68;
 console.log(generateRandom)
 
 const App = () => {
