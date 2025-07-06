@@ -14,7 +14,6 @@ const AddJournalPage = () => {
                         <JournalForm />
                     </div>
                     <div className="space-y-6">
-                        <AiInsight />
                         <RecentEntriesCard />
                         <QuickStatsCard />
                     </div>

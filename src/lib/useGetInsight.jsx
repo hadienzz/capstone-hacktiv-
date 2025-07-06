@@ -1,10 +1,10 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { useFormik } from "formik"
 
 const useGetInsight = () => {
     const token = localStorage.getItem('token')
-
+    const queryClient = useQueryClient()
     const { mutate: addJournal, isPending: pendingAddJournal } = useMutation({
         mutationFn: async (body) => {
 
@@ -18,14 +18,17 @@ const useGetInsight = () => {
                     Authorization: `Bearer ${token}`
                 }
             })
-            
+
             if (!response) {
                 throw new Error('Failed to get insight')
             }
 
             return response.data
         },
-        mutationKey: ['journal']
+        mutationKey: ['journal'],
+        onSuccess: () => {
+            queryClient.invalidateQueries(['journal'])
+        }
     })
 
     const formik = useFormik({

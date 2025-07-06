@@ -1,11 +1,11 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 
 const useGetUserJournal = () => {
     const navigate = useNavigate()
     const token = localStorage.getItem('token')
-
+    const queryClient = useQueryClient()
     if (!token) {
         navigate('/signin')
     }
@@ -21,7 +21,7 @@ const useGetUserJournal = () => {
             if (!response) {
                 throw new Error('Failed to get data')
             }
-
+            queryClient.invalidateQueries(['journal'])
             return response.data
         } catch (err) {
             throw err
@@ -31,7 +31,7 @@ const useGetUserJournal = () => {
 
     const { isLoading: journalLoading, data: journalData } = useQuery({
         queryFn: fetchJournal,
-        queryKey: ['journal']
+        queryKey: ['journal'],
     })
 
     return {

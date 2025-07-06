@@ -11,9 +11,10 @@ import useDeleteJournal from "@/lib/useDeleteJournal"
 const JournalUser = () => {
   const { journalData, journalLoading } = useGetUserJournal()
   const { handleSelect, selectedJournal, isOpen, setIsOpen, journalPending } = useSelectJournal()
-  const { } = useDeleteJournal()
+  const { handleDelete, openDeleteModal, setOpenDeleteModal, handleConfirm, } = useDeleteJournal()
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+      {selectedJournal && !journalPending && <JournalEntryModal entry={selectedJournal.data} saran={selectedJournal.saran} isOpen={isOpen} setIsOpen={setIsOpen} />}
       <Navbar />
 
       <main className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -27,7 +28,13 @@ const JournalUser = () => {
         {journalLoading && <p>We're still loading, hold on for a second</p>}
 
         {!journalLoading && journalData.length !== 0 && (
-          <JournalEntriesList handleSelect={handleSelect} entries={journalData} />
+          <JournalEntriesList
+            onClose={setOpenDeleteModal}
+            openDeleteModal={openDeleteModal}
+            handleDelete={handleDelete}
+            handleSelect={handleSelect}
+            entries={journalData}
+            onConfirm={handleConfirm} />
         )}
 
         {!journalLoading && journalData.length === 0 && (
@@ -39,7 +46,6 @@ const JournalUser = () => {
           </div>
         )}
 
-        {selectedJournal && !journalPending && <JournalEntryModal entry={selectedJournal.data} isOpen={isOpen} setIsOpen={setIsOpen} />}
       </main>
     </div>
   )

@@ -4,13 +4,11 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Eye, Trash2, Search, Calendar, Clock, Tag } from "lucide-react"
 import { Button } from "../ui/button"
+import DeleteModal from "./DeleteModal"
 
 
-const JournalEntriesList = ({ entries, handleSelect }) => {
-  // const [searchTerm, setSearchTerm] = useState("")
-  // const [moodFilter, setMoodFilter] = useState("all")
-  // const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  // const [entryToDelete, setEntryToDelete] = useState(null)
+const JournalEntriesList = ({ entries, handleSelect, handleDelete, onClose, openDeleteModal, onConfirm }) => {
+
   const moodColors = {
     Happy: "#00b894",
     Neutral: "#74b9ff",
@@ -29,44 +27,6 @@ const JournalEntriesList = ({ entries, handleSelect }) => {
 
   return (
     <div className="space-y-6">
-      {/* Filters */}
-      <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-lg text-gray-800 flex items-center">
-            <Search className="w-5 h-5 mr-2" />
-            Filter & Search
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <Input
-                placeholder="Search by title, content, or tags..."
-                // value={searchTerm}
-                // onChange={(e) => setSearchTerm(e.target.value)}
-                className="bg-white/80 border-purple-200 focus:border-purple-400"
-              />
-            </div>
-            <div className="w-full sm:w-48">
-              {/* </div>value={moodFilter} onValueChange={setMoodFilter} */}
-              <Select>
-                <SelectTrigger className="bg-white/80 border-purple-200">
-                  <SelectValue placeholder="Filter by mood" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Moods</SelectItem>
-                  <SelectItem value="Happy">😊 Happy</SelectItem>
-                  <SelectItem value="Neutral">😐 Neutral</SelectItem>
-                  <SelectItem value="Sad">😢 Sad</SelectItem>
-                  <SelectItem value="Angry">😠 Angry</SelectItem>
-                  <SelectItem value="Lonely">😔 Lonely</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </CardContent >
-      </Card >
-
       <div className="flex items-center justify-between">
         <p className="text-gray-600">
           Showing {entries.length} of {entries.length} entries
@@ -114,22 +74,19 @@ const JournalEntriesList = ({ entries, handleSelect }) => {
 
             <CardContent className="">
               <p className="text-gray-600 text-base line-clamp-3 truncate">{entry.user}</p>
+              <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg p-4 border border-blue-200 mt-4">
+                <h4 className="text-sm font-medium text-blue-800 mb-2">Mood Reflection</h4>
+                <p className="text-sm text-blue-700">
+                  {entry.bot.saran}
+                </p>
+              </div>
 
               <div className="flex gap-2 pt-2">
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => handleSelect(entry._id)}
-                  className="flex-1 bg-blue-50 border-blue-200 text-blue-600 hover:bg-blue-100"
-                >
-                  <Eye className="w-3 h-3 mr-1" />
-                  View
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  // onClick={() => handleDeleteClick(entry)}
-                  className="bg-red-50 border-red-200 text-red-600 hover:bg-red-100"
+                  onClick={() => handleDelete(entry._id)}
+                  className="bg-red-50 border-red-200 text-red-600 hover:bg-red-100 flex-1"
                 >
                   <Trash2 className="w-3 h-3" />
                 </Button>
@@ -139,28 +96,7 @@ const JournalEntriesList = ({ entries, handleSelect }) => {
         ))}
       </div>
 
-      {/* {
-        filteredEntries.length === 0 && (
-          <Card className="bg-white/70 backdrop-blur-sm border-0 shadow-lg">
-            <CardContent className="text-center py-12">
-              <div className="text-gray-400 mb-4">
-                <Search className="w-12 h-12 mx-auto" />
-              </div>
-              <h3 className="text-lg font-medium text-gray-600 mb-2">No entries found</h3>
-              <p className="text-gray-500">
-                Try adjusting your search terms or mood filter to find what you're looking for.
-              </p>
-            </CardContent>
-          </Card>
-        )
-      } */}
-
-      {/* <DeleteConfirmationDialog
-        isOpen={deleteDialogOpen}
-        onConfirm={handleConfirmDelete}
-        onCancel={handleCancelDelete}
-        entryTitle={entryToDelete?.title}
-      /> */}
+      {<DeleteModal isOpen={openDeleteModal} onConfirm={onConfirm} onClose={onClose} />}
     </div >
   )
 }

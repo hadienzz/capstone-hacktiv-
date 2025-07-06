@@ -42,14 +42,17 @@ const analyzeJournal = async (req, res) => {
     });
 
     const insight = response.candidates[0].content.parts[0].text;
+
+    const bot = JSON.parse(insight);
+
     const result = await db.insertOne({
       title,
       user: journal,
-      bot: insight,
+      bot,
       userId,
       createdAt: now.toISOString().split("T")[0],
       time,
-      mood
+      mood,
     });
 
     return res

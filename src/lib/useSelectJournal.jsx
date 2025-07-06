@@ -13,23 +13,13 @@ const useSelectJournal = () => {
                     Authorization: `Bearer ${token}`
                 }
             })
-
             if (!response) {
                 throw new Error('Failed to get selected journal')
             }
 
-            let botParsed = null
-            if (response.data.bot) {
-                const data = JSON.parse(response.data.bot)
-                botParsed = data
-            }
 
             setIsOpen(true)
-            return {
-                data: response.data,
-                botParsed
-            }
-
+            return response.data
         } catch (err) {
             throw new Error(err)
         }
@@ -38,8 +28,9 @@ const useSelectJournal = () => {
     const { mutate: handleSelect, data: selectedJournal, isPending: journalPending } = useMutation({
         mutationFn: async (id) => fetchJournal(id),
         mutationKey: ['selectJournal'],
+
     })
-    console.log(selectedJournal)
+
 
     return {
         handleSelect,
