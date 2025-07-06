@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom"
 import AddJournalPage from "./components/pages/AddJournalPage"
 import SignInPage from "./components/pages/SignIn"
-import SignUpPage from "./components/pages/signUp"
+import SignUpPage from "./components/pages/SignUp"
 import JournalUser from "./components/pages/JournalUser"
 
 const router = createBrowserRouter([
@@ -10,6 +10,9 @@ const router = createBrowserRouter([
   { path: '/signup', element: <SignUpPage /> },
   { path: '/journal', element: <JournalUser /> }
 ])
+
+const generateRandom = Math.floor(Math.random() * (98 - 60 + 1)) + 60;
+console.log(generateRandom)
 
 const App = () => {
   return (
